@@ -1,5 +1,6 @@
 package laboratorio3;
 import java.util.*;
+import java.text.*;
 /**
  *Software tipo planilla, para calculo de sueldo liquido, con uso de vectores y matrices.
  * @author BillyS
@@ -8,16 +9,17 @@ import java.util.*;
 public class Laboratorio3 {  
     public static void main(String[] args) {        
         //Vectores y Matrices
-        int [][] intPlanilla = new int[10][6];
+        double [][] dblPlanilla = new double[10][7];
         int [] intDepartamento = new int[5];
         String [] snombres = new String[10];
+        int [] [] intISR = new int[3][3];
         System.out.println("Bienvenido");
-        LlenadoDePlanilla(intPlanilla, snombres);
-        SumaSueldo(intPlanilla, intDepartamento);
-        MostrarPlanillaYVector(intPlanilla, intDepartamento, snombres);
+        LlenadoDePlanilla(dblPlanilla, snombres);
+        SumaSueldo(dblPlanilla, intDepartamento);
+        MostrarPlanillaYVector(dblPlanilla, intDepartamento, snombres);
     }
     
-    public static void LlenadoDePlanilla(int[][] intPlani, String[] sNombresVec){
+    public static void LlenadoDePlanilla(double[][] dblPlani, String[] sNombresVec){
         Scanner scngua = new Scanner(System.in);
         int iConteo=1;
         String sNombre;
@@ -29,34 +31,39 @@ public class Laboratorio3 {
             System.out.println("Ingrese el Nombre del Empleado #"+iConteo);
             sNombre = scngua.next();//Guardar el nombre en una variable            
             sNombresVec[ifila] = sNombre;//nombre
-            intPlani[ifila][0] = ifila;
-            intPlani[ifila][1] = rSueldoBase.nextInt(2000)+1500;
-            intPlani[ifila][2] = rDeducciones.nextInt(500)+100;
-            intPlani[ifila][3] = rPersepciones.nextInt(500)+250;
-            intPlani[ifila][4] = intPlani[ifila][1]-intPlani[ifila][2]+intPlani[ifila][3];
-            intPlani[ifila][5] = rDepartamento.nextInt(5)+1;            
+            dblPlani[ifila][0] = ifila;
+            dblPlani[ifila][1] = rSueldoBase.nextInt(2000)+1500;
+            dblPlani[ifila][2] = rDeducciones.nextInt(500)+100;
+            dblPlani[ifila][3] = rPersepciones.nextInt(500)+250;
+            dblPlani[ifila][4] = dblPlani[ifila][1] * 0.1067;//IGSS
+            dblPlani[ifila][5] = dblPlani[ifila][1]-dblPlani[ifila][2]+dblPlani[ifila][3]-dblPlani[ifila][4];//Sueldo Liquido
+            dblPlani[ifila][6] = rDepartamento.nextInt(5)+1;            
             iConteo++;
         }   
     }
     
-    public static void SumaSueldo(int[][] intPlani, int[] intDepar){
+    public static void SumaSueldo(double[][] dblPlani, int[] intDepar){
         int iAuxConteo=1;
         for(int iPosicion = 0; iPosicion < 5; iPosicion++){
             for(int iFila=0; iFila < 10; iFila++){
-                if(iAuxConteo == intPlani[iFila][5]){
-                    intDepar[iPosicion] += intPlani[iFila][4];                   
+                if(iAuxConteo == dblPlani[iFila][5]){
+                    intDepar[iPosicion] += dblPlani[iFila][4];                   
                 }
             }
             iAuxConteo++;
         }
     }
     
-    public static void MostrarPlanillaYVector(int[][] intPlani, int[] intDepar, String[] sNombresVec){
+    public static void MostrarPlanillaYVector(double[][] dblPlani, int[] intDepar, String[] sNombresVec){
         int iconteoaux=1;
+        DecimalFormat dfDosDeci = new DecimalFormat("#.00");
+        DecimalFormat dfUnDeci = new DecimalFormat("#");
         System.out.println("-------------------------------------------------");
         
-        for(int iFila=0; iFila <10; iFila++){            
-                System.out.println("Nombre: "+sNombresVec[iFila]+"--Sueldo Base: "+intPlani[iFila][1]+"--Deducciones: "+intPlani[iFila][2]+"--Prestaciones: "+intPlani[iFila][3]+"--Sueldo Liquido: "+intPlani[iFila][4]+"--Departamento: "+intPlani[iFila][5]);            
+        for(int iFila=0; iFila <10; iFila++){                
+                System.out.println("Nombre: "+sNombresVec[iFila]+"--Sueldo Base: "+dblPlani[iFila][1]+"--Deducciones: "+dblPlani[iFila][2]+
+                        "--Prestaciones: "+dblPlani[iFila][3]+"--IGSS: "+dfDosDeci.format(dblPlani[iFila][4])+
+                        "--Sueldo Liquido: "+dfDosDeci.format(dblPlani[iFila][5])+"--Departamento: "+dfUnDeci.format(dblPlani[iFila][6]));            
         }
         System.out.println("-------------------------------------------------");
         System.out.println("Total Por Departamento");
