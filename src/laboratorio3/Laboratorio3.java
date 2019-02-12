@@ -9,17 +9,17 @@ import java.text.*;
 public class Laboratorio3 {  
     public static void main(String[] args) {        
         //Vectores y Matrices
-        double [][] dblPlanilla = new double[10][7];
+        double [][] dblPlanilla = new double[10][8];
         int [] intDepartamento = new int[5];
         String [] snombres = new String[10];
-        int [] [] intISR = {{2500,5000,3},{5001,10000,5},{10001,100000,10}};
+        double [][] dblISR = {{2500,5000,3},{5001,10000,5},{10001,100001,10}};
         System.out.println("Bienvenido");
-        LlenadoDePlanilla(dblPlanilla, snombres);
+        LlenadoDePlanilla(dblPlanilla, snombres, dblISR);
         SumaSueldo(dblPlanilla, intDepartamento);
         MostrarPlanillaYVector(dblPlanilla, intDepartamento, snombres);
     }
     
-    public static void LlenadoDePlanilla(double[][] dblPlani, String[] sNombresVec){
+    public static void LlenadoDePlanilla(double[][] dblPlani, String[] sNombresVec, double[][] dISR){
         Scanner scngua = new Scanner(System.in);
         int iConteo=1;
         String sNombre;
@@ -32,12 +32,17 @@ public class Laboratorio3 {
             sNombre = scngua.next();//Guardar el nombre en una variable            
             sNombresVec[ifila] = sNombre;//nombre
             dblPlani[ifila][0] = ifila;
-            dblPlani[ifila][1] = rSueldoBase.nextInt(2000)+1500;
+            dblPlani[ifila][1] = rSueldoBase.nextInt(97500)+2501;
             dblPlani[ifila][2] = rDeducciones.nextInt(500)+100;
             dblPlani[ifila][3] = rPersepciones.nextInt(500)+250;
             dblPlani[ifila][4] = dblPlani[ifila][1] * 0.1067;//IGSS
-            dblPlani[ifila][5] = dblPlani[ifila][1]-dblPlani[ifila][2]+dblPlani[ifila][3]-dblPlani[ifila][4];//Sueldo Liquido
-            dblPlani[ifila][6] = rDepartamento.nextInt(5)+1;            
+            for(int iPosISRf=0; iPosISRf <3; iPosISRf++){  //IRS             
+                if(dblPlani[ifila][1]>=dISR[iPosISRf][0] && dblPlani[ifila][1]<=dISR[iPosISRf][1] ){
+                    dblPlani[ifila][5] = dblPlani[ifila][1]*(dISR[iPosISRf][2]/100);//ISR
+                }               
+            }
+            dblPlani[ifila][6] = dblPlani[ifila][1]-dblPlani[ifila][2]+dblPlani[ifila][3]-dblPlani[ifila][4]-dblPlani[ifila][5];//Sueldo Liquido
+            dblPlani[ifila][7] = rDepartamento.nextInt(5)+1;            
             iConteo++;
         }   
     }
@@ -46,8 +51,8 @@ public class Laboratorio3 {
         int iAuxConteo=1;
         for(int iPosicion = 0; iPosicion < 5; iPosicion++){
             for(int iFila=0; iFila < 10; iFila++){
-                if(iAuxConteo == dblPlani[iFila][5]){
-                    intDepar[iPosicion] += dblPlani[iFila][4];                   
+                if(iAuxConteo == dblPlani[iFila][7]){
+                    intDepar[iPosicion] += dblPlani[iFila][6];                   
                 }
             }
             iAuxConteo++;
@@ -61,9 +66,10 @@ public class Laboratorio3 {
         System.out.println("-------------------------------------------------");
         
         for(int iFila=0; iFila <10; iFila++){                
-                System.out.println("Nombre: "+sNombresVec[iFila]+"--Sueldo Base: "+dblPlani[iFila][1]+"--Deducciones: "+dblPlani[iFila][2]+
-                        "--Prestaciones: "+dblPlani[iFila][3]+"--IGSS: "+dfDosDeci.format(dblPlani[iFila][4])+
-                        "--Sueldo Liquido: "+dfDosDeci.format(dblPlani[iFila][5])+"--Departamento: "+dfUnDeci.format(dblPlani[iFila][6]));            
+                System.out.println("Nombre: "+sNombresVec[iFila]+"\t\t--Departamento: "+dfUnDeci.format(dblPlani[iFila][7])+
+                        "\t--Sueldo Base: "+dblPlani[iFila][1]+"\t--Deducciones: "+dblPlani[iFila][2]+
+                        "\t--Prestaciones: "+dblPlani[iFila][3]+"\t--IGSS: "+dfDosDeci.format(dblPlani[iFila][4])+
+                        "\t--ISR: "+dfDosDeci.format(dblPlani[iFila][5])+"\t--Sueldo Liquido: "+dfDosDeci.format(dblPlani[iFila][6]));            
         }
         System.out.println("-------------------------------------------------");
         System.out.println("Total Por Departamento");
