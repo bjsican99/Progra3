@@ -12,7 +12,7 @@ public class Laboratorio3 {
         double [][] dblPlanilla = new double[10][7];
         int [] intDepartamento = new int[5];
         String [] snombres = new String[10];
-        int [] [] intISR = new int[3][3];
+        int [] [] intISR = {{2500,5000,3},{5001,10000,5},{10001,100000,10}};
         System.out.println("Bienvenido");
         LlenadoDePlanilla(dblPlanilla, snombres);
         SumaSueldo(dblPlanilla, intDepartamento);
