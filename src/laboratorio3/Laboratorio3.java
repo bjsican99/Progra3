@@ -5,6 +5,7 @@ import java.text.*;
  *Software tipo planilla, para calculo de sueldo liquido, con uso de vectores y matrices.
  * @author BillyS
  * 0901-17-16250
+ * Derechos de Autor Recervados
  */
 public class Laboratorio3 {  
     public static void main(String[] args) {        
@@ -25,7 +26,7 @@ public class Laboratorio3 {
         for(int ifila = 0; ifila <10; ifila++){
             System.out.println("Ingrese el Nombre del Empleado #"+iConteo);
             sNombresDerecho[ifila][0] = scngua.nextLine();//Nombres En la matriz
-            System.out.println("Tiene Derecho "+sNombresDerecho[ifila][0]+" a Prestaciones y Deducciones:\n SI/NO");
+            System.out.println("Calculo a "+sNombresDerecho[ifila][0]+" algun impuesto:\nSI/NO");
             sNombresDerecho[ifila][1] = scngua.nextLine();//Derecho a Prestaciones y Deducciones
             //Llenado de Salarios, Deducciones y Prestaciones
             dblPlani[ifila][0] = ifila;   
@@ -43,14 +44,14 @@ public class Laboratorio3 {
         Random rDepartamento = new Random();
         //Llenado
         dblPlani[ifila][1] = rSueldoBase.nextInt(97500)+2501;
-        dblPlani[ifila][7] = rDepartamento.nextInt(5)+1;      
-        if(strDerecho.equals("SI")){
-            dblPlani[ifila][2] = rDeducciones.nextInt(500)+100;
-            dblPlani[ifila][3] = rPersepciones.nextInt(500)+250;
+        dblPlani[ifila][7] = rDepartamento.nextInt(5)+1;     
+        dblPlani[ifila][2] = rDeducciones.nextInt(500)+100;
+        dblPlani[ifila][3] = rPersepciones.nextInt(500)+250;
+        if(strDerecho.equals("SI") || strDerecho.equals("S")){            
             dblPlani[ifila][4] = CalculoIGSS(dblPlani, ifila);
             dblPlani[ifila][5] = CalculoISR(dblPlani, ifila);
         }else{
-            dblPlani[ifila][2] = dblPlani[ifila][3] = dblPlani[ifila][4] = dblPlani[ifila][5] = 0;           
+            dblPlani[ifila][2] = dblPlani[ifila][4] = dblPlani[ifila][5] = 0;           
         }                    
     }
     
@@ -86,18 +87,30 @@ public class Laboratorio3 {
     
     public static void MostrarPlanillaYVector(double[][] dblPlani, int[] intDepar, String[][] sNombresVec){
         int iconteoaux=1;
-        DecimalFormat dfDosDeci = new DecimalFormat("#.00");
+        DecimalFormat dfDosDeci = new DecimalFormat("#00000.00");
         DecimalFormat dfUnDeci = new DecimalFormat("#");
-        System.out.println("-------------------------------------------------");
+        System.out.println("-------------------------------------------"
+                        + "----------------------------------------------------"
+                        + "----------------------------------------------------"
+                        + "------------");
         
         for(int iFila=0; iFila <10; iFila++){                
-                System.out.println("Nombre: "+sNombresVec[iFila][0]+"\t\t--Departamento: "+dfUnDeci.format(dblPlani[iFila][7])+
-                        "\t--Sueldo Base: "+dblPlani[iFila][1]+"\t--Deducciones: "+dblPlani[iFila][2]+
-                        "\t--Prestaciones: "+dblPlani[iFila][3]+"\t--IGSS: "+dfDosDeci.format(dblPlani[iFila][4])+
-                        "\t--ISR: "+dfDosDeci.format(dblPlani[iFila][5])+"\t--Sueldo Liquido: "+dfDosDeci.format(dblPlani[iFila][6]));            
+                System.out.println("Nombre: "+sNombresVec[iFila][0]); 
+                System.out.println("Departamento: "+dfUnDeci.format(dblPlani[iFila][7])+
+                        "\t\t--Sueldo Base: "+dblPlani[iFila][1]+"\t\t--Deducciones: "+dblPlani[iFila][2]+
+                        "\t--Prestaciones: "+dblPlani[iFila][3]+" \t--IGSS: "+dfDosDeci.format(dblPlani[iFila][4])+
+                        "\t--ISR: "+dfDosDeci.format(dblPlani[iFila][5])+
+                        "\t\t--Sueldo Liquido: "+dfDosDeci.format(dblPlani[iFila][6]));
+                System.out.println("-------------------------------------------"
+                        + "----------------------------------------------------"
+                        + "----------------------------------------------------"
+                        + "------------");
         }
-        System.out.println("-------------------------------------------------");
-        System.out.println("Total Por Departamento");
+        System.out.println("-------------------------------------------"
+                        + "----------------------------------------------------"
+                        + "----------------------------------------------------"
+                        + "------------");
+        System.out.println("Total Por Departamento\n");
         for(int iPosicion = 0; iPosicion <5;iPosicion++){
             System.out.println("Numero De Departamento "+iconteoaux+": "+intDepar[iPosicion]);
             iconteoaux++;
