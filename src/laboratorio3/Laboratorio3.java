@@ -13,7 +13,7 @@ public class Laboratorio3 {
         double [][] dblPlanilla = new double[10][8];
         int [] intDepartamento = new int[5];
         String [][] sNombresYDerechoPrestaciones = new String[10][2];       
-        //Principal Llamado de funciones
+        //Principal Llamado de funcione
         System.out.println("Bienvenido");
         LlenadoDePlanilla(dblPlanilla, sNombresYDerechoPrestaciones);
         SumaSueldoDepartamentos(dblPlanilla, intDepartamento);
