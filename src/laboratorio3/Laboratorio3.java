@@ -4,6 +4,7 @@ import java.text.*;
 /**
  *Software tipo planilla, para calculo de sueldo liquido, con uso de vectores y matrices.
  * Adicion con calculo de IGSS e ISR dependiendo de un rango de salario.
+ * Presentacion
  * @author BillyS
  * 0901-17-16250
  * Derechos de Autor Recervados
@@ -62,7 +63,7 @@ public class Laboratorio3 {
     }
     //Funcion del calculo ISR
     public static double CalculoISR(double [][] dblPlanilla, int ifila){
-        double [][] dblISR = {{2500,5000,3},{5001,10000,5},{10001,100001,10}};
+        double [][] dblISR = {{2500,5000,3},{5001,10000,5},{10001,100001,10}};//Matriz del porcentaje al ISR
         for(int iPosISRf=0; iPosISRf <3; iPosISRf++){  //IRS             
             if(dblPlanilla[ifila][1]>=dblISR[iPosISRf][0] && dblPlanilla[ifila][1]<=dblISR[iPosISRf][1]){
                 dblPlanilla[ifila][5] = dblPlanilla[ifila][1]*(dblISR[iPosISRf][2]/100);//ISR               
