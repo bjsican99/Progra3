@@ -3,6 +3,7 @@ import java.util.*;
 import java.text.*;
 /**
  *Software tipo planilla, para calculo de sueldo liquido, con uso de vectores y matrices.
+ * Adicion con calculo de IGSS e ISR dependiendo de un rango de salario.
  * @author BillyS
  * 0901-17-16250
  * Derechos de Autor Recervados
@@ -35,7 +36,7 @@ public class Laboratorio3 {
             iConteo++;
         }   
     }
-    
+    //Llenado de matriz con variables random
     public static void SalariosDeduccionesPrestaciones(double [][] dblPlani, int ifila, String [][] sDerecho){
         String strDerecho = sDerecho[ifila][1].toUpperCase();
         Random rSueldoBase = new Random();
@@ -47,6 +48,7 @@ public class Laboratorio3 {
         dblPlani[ifila][7] = rDepartamento.nextInt(5)+1;     
         dblPlani[ifila][2] = rDeducciones.nextInt(500)+100;
         dblPlani[ifila][3] = rPersepciones.nextInt(500)+250;
+        //Verificacion de se le calcula IGSS E ISR
         if(strDerecho.equals("SI") || strDerecho.equals("S")){            
             dblPlani[ifila][4] = CalculoIGSS(dblPlani, ifila);
             dblPlani[ifila][5] = CalculoISR(dblPlani, ifila);
@@ -54,11 +56,11 @@ public class Laboratorio3 {
             dblPlani[ifila][2] = dblPlani[ifila][4] = dblPlani[ifila][5] = 0;           
         }                    
     }
-    
+    //Funcion del calculo IGSS
     public static double CalculoIGSS(double [][] dblPlanilla, int ifila){                
         return dblPlanilla[ifila][4] = dblPlanilla[ifila][1] * 0.1067;//IGSS   
     }
-    
+    //Funcion del calculo ISR
     public static double CalculoISR(double [][] dblPlanilla, int ifila){
         double [][] dblISR = {{2500,5000,3},{5001,10000,5},{10001,100001,10}};
         for(int iPosISRf=0; iPosISRf <3; iPosISRf++){  //IRS             
@@ -68,11 +70,11 @@ public class Laboratorio3 {
         }
         return dblPlanilla[ifila][5];
     }
-    
+    //Funcion suma y resta los todas las bonificacion y deducciones
     public static double SumaSueldoLiquido(double [][] dblPlanilla, int ifila){
         return dblPlanilla[ifila][6] = dblPlanilla[ifila][1]-dblPlanilla[ifila][2]+dblPlanilla[ifila][3]-dblPlanilla[ifila][4]-dblPlanilla[ifila][5];//Sueldo Liquido 
     }
-    
+    //Guarda todos los elementos en el vector dependiendo del departamento al que pertenece
     public static void SumaSueldoDepartamentos(double[][] dblPlani, int[] intDepar){
         int iAuxConteo=1;
         for(int iPosicion = 0; iPosicion < 5; iPosicion++){
@@ -84,7 +86,7 @@ public class Laboratorio3 {
             iAuxConteo++;
         }
     }
-    
+    //Imprime en pantalla todos los resultados de la matriz y del vector
     public static void MostrarPlanillaYVector(double[][] dblPlani, int[] intDepar, String[][] sNombresVec){
         int iconteoaux=1;
         DecimalFormat dfDosDeci = new DecimalFormat("#00000.00");
